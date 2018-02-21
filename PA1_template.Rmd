@@ -71,11 +71,34 @@ stepsByInterval$interval[which.max(stepsByInterval$steps)]
 
 1. Calculate and report the total number of missing values in the dataset 
 
-2. Devise a strategy for filling in all of the missing values in the dataset.
+```{r numna}
+sum(is.na(activity$steps))
+```
 
+2. Devise a strategy for filling in all of the missing values in the dataset.
 3. Create a new dataset that is equal to the original dataset but with the missing data filled in.
 
+```{r filldata}
+activity.complete <- activity
+activity.complete$isNa <- is.na(activity$steps)
+mean.stepsByInterval <- aggregate(steps ~ interval, activity, mean, na.rn = TRUE)
+activity.complete$steps <- ifelse(activity.complete$isNa, mean.stepsByInterval$steps, activity.complete$steps)
+activity.complete$isNa <- NULL
+```
+
 4. Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
+
+```{r histbydaycomplete}
+stepsByDay.complete <- aggregate(steps ~ date, activity.complete, sum, na.rm = TRUE)
+hist(stepsByDay.complete$steps, breaks = 20, main = "Steps by day", xlab = "Number of steps")
+```
+
+```{r meanbydaycomplete}
+mean(stepsByDay.complete$steps, na.rm = TRUE)
+median(stepsByDay.complete$steps, na.rm = TRUE)
+```
+
+We can see that the data is more "normalized" and the mean and the median are equals now.
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
