@@ -12,12 +12,14 @@ knitr::opts_chunk$set(echo = TRUE)
 ### First the necessary libraries are loaded
 ```{r libraries, results='hide'}
 library(data.table)
+library(ggplot2)
 ```
 
 ## Loading and preprocessing the data
 
 1. Load the data
 ```{r dataloading, results='hide'}
+unzip("./activity.zip")
 activity <- fread("./activity.csv")
 ```
 
@@ -51,6 +53,12 @@ median(stepsByDay$steps, na.rm = TRUE)
 ## What is the average daily activity pattern?
 
 1. Make a time series plot of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
+
+```{r stepsinterval}
+stepsByInterval <- aggregate(steps ~ interval, activity, sum, na.rn = TRUE)
+g <- ggplot(stepsByInterval, aes(interval, steps))
+g + geom_line() + ggtitle("Average steps by interval") + xlab("Interval") + ylab("Average steps")
+```
 
 2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 
