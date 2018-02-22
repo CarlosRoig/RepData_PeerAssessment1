@@ -40,7 +40,7 @@ stepsByDay <- aggregate(steps ~ date, activity, sum, na.rm = TRUE)
 2. Make a histogram of the total number of steps taken each day
 
 ```{r histbyday}
- hist(stepsByDay$steps, breaks = 20, main = "Steps by day", xlab = "Number of steps")
+hist(stepsByDay$steps, breaks = 20, main = "Steps by day", xlab = "Number of steps")
 ```
 
 3. Calculate and report the mean and median of the total number of steps taken per day
@@ -90,7 +90,9 @@ activity.complete$isNa <- NULL
 
 ```{r histbydaycomplete}
 stepsByDay.complete <- aggregate(steps ~ date, activity.complete, sum, na.rm = TRUE)
-hist(stepsByDay.complete$steps, breaks = 20, main = "Steps by day", xlab = "Number of steps")
+hist(stepsByDay.complete$steps, breaks = 20, main = "Steps by day", xlab = "Number of steps", col=rgb(1,0,0,0.5))
+par(new=TRUE)
+hist(stepsByDay$steps, breaks = 20, main = "Steps by day", xlab = "Number of steps", add=T,  col=rgb(0,0,1,0.5, 0.5))
 ```
 
 ```{r meanbydaycomplete}
