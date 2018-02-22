@@ -56,7 +56,7 @@ median(stepsByDay$steps, na.rm = TRUE)
 1. Make a time series plot of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
 
 ```{r stepsinterval}
-stepsByInterval <- aggregate(steps ~ interval, activity, sum, na.rn = TRUE)
+stepsByInterval <- aggregate(steps ~ interval, activity, mean, na.rn = TRUE)
 g <- ggplot(stepsByInterval, aes(interval, steps))
 g + geom_line() + ggtitle("Average steps by interval") + xlab("Interval") + ylab("Average steps")
 ```
@@ -94,6 +94,8 @@ stepsByDay.complete <- aggregate(steps ~ date, activity.complete, sum, na.rm = T
 hist(stepsByDay.complete$steps, breaks = 20, main = "Steps by day", xlab = "Number of steps", col=rgb(1,0,0,0.5))
 par(new=TRUE)
 hist(stepsByDay$steps, breaks = 20, main = "Steps by day", xlab = "Number of steps", add=T,  col=rgb(0,0,1,0.5, 0.5))
+box()
+legend("topright", c("Filled in NA's", "Original data"), fill=c(rgb(1,0,0,0.5), rgb(0,0,1,0.5, 0.5)))
 ```
 
 ```{r meanbydaycomplete}
@@ -109,7 +111,13 @@ We can see that the data is more "normalized" and the mean and the median are eq
 
 ```{r weekdays}
 activity.complete$day <- ifelse(weekdays(activity.complete$date) %in% c("Saturday", "Sunday"), "Weekend", "weekday")
+activity.complete$day <- factor(activity.complete$day)
 ```
 
 2. Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis).
 
+```{r intervaldays}
+stepsByIntervalAndDay <- aggregate(activity.complete$steps, by=list(interval=activity.complete$interval, day=activity.complete$day), FUN=mean)
+g2 <- ggplot(stepsByIntervalAndDay, aes(interval, x))
+g2 + geom_line(aes(color=day)) + xlab("Interval") + ylab("Total steps") + ggtitle("Difference between weekdays and weekends steps")
+```
