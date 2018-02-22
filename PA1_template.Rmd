@@ -2,7 +2,9 @@
 title: "PA1_template"
 author: "Carlos Roig"
 date: "20 Februar 2018"
-output: html_document
+output: 
+  html_document: 
+    keep_md: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -64,7 +66,7 @@ g + geom_line() + ggtitle("Average steps by interval") + xlab("Interval") + ylab
 2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 
 ```{r maxsteps}
-stepsByInterval$interval[which.max(stepsByInterval$steps)]
+stepsByInterval[which.max(stepsByInterval$steps),]
 ```
 
 
@@ -77,6 +79,9 @@ sum(is.na(activity$steps))
 ```
 
 2. Devise a strategy for filling in all of the missing values in the dataset.
+
+ - We calculate the mean of every interval and we will assign the value of the interval mean, to the interval that has a NA as value.
+
 3. Create a new dataset that is equal to the original dataset but with the missing data filled in.
 
 ```{r filldata}

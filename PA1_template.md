@@ -87,11 +87,12 @@ g + geom_line() + ggtitle("Average steps by interval") + xlab("Interval") + ylab
 
 
 ```r
-stepsByInterval$interval[which.max(stepsByInterval$steps)]
+stepsByInterval[which.max(stepsByInterval$steps),]
 ```
 
 ```
-## [1] 835
+##     interval    steps
+## 104      835 206.1698
 ```
 
 
